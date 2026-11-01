@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sudhavalli Murali · Portfolio</title>
+<meta name="description" content="Sudhavalli Murali — B.Tech CSE at IIIT Raichur. Deep learning, computer vision and world models.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a pixel-game "save file" — a player card hero with an original pixel character,
+   then quests (projects), XP log (experience), save points (education) and inventory (skills),
+   all as chunky blocks with hard pixel shadows on a candy-pink world. Single theme by choice. */
+:root{
+  --bg:#ffe6f1;          /* candy floss sky */
+  --block:#fff7fb;       /* card face */
+  --ink:#4a1942;         /* deep plum outlines + text */
+  --pink:#ff4fa3;        /* hot pink accent */
+  --rose:#ffa9cf;        /* soft pink fills */
+  --mint:#6fe3c8;        /* XP / success pop */
+  --lilac:#c9a7ff;       /* secondary pop */
+  --muted:#8a4f7d;
+  --display:"Press Start 2P", ui-monospace, monospace;
+  --body:"Pixelify Sans", ui-rounded, "Trebuchet MS", system-ui, sans-serif;
+  --px:4px;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:20px;
+  line-height:1.45;
+  image-rendering:pixelated;
+  overflow-x:hidden;
+}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:28px 18px 64px;display:flex;flex-direction:column;gap:40px}
+a{color:var(--pink);text-decoration-thickness:3px;text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:4px dashed var(--pink);outline-offset:4px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+h2{font-size:clamp(15px,2.4vw,20px);letter-spacing:.02em;display:flex;align-items:center;gap:14px}
+h2 .tag{background:var(--ink);color:var(--bg);padding:8px 10px;font-size:11px}
+h3{font-size:13px;line-height:1.6}
+p{margin:0;max-width:65ch}
+
+.block{
+  background:var(--block);
+  border:var(--px) solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  padding:22px;
+  position:relative;
+}
+.block::before{ /* pixel corner highlight */
+  content:"";position:absolute;top:4px;left:4px;width:16px;height:4px;background:#fff;
+  box-shadow:0 4px 0 #fff, -0px 0 0 #fff;
+}
+
+/* top bar */
+.hud{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;font-family:var(--display);font-size:10px}
+.hud .coins{display:flex;gap:16px;flex-wrap:wrap}
+.hud span b{color:var(--pink)}
+nav{display:flex;flex-wrap:wrap;gap:10px}
+nav a{font-family:var(--display);font-size:10px;color:var(--ink);text-decoration:none;background:var(--rose);border:3px solid var(--ink);padding:8px 10px;box-shadow:4px 4px 0 var(--ink)}
+nav a:hover{background:var(--pink);color:#fff;transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:28px;align-items:center}
+.stage{background:linear-gradient(var(--lilac) 0 70%, var(--mint) 70% 74%, #3fbf9f 74%);border:var(--px) solid var(--ink);box-shadow:8px 8px 0 var(--ink);aspect-ratio:1/1.05;display:grid;place-items:end center;padding:40px 0 6%;position:relative;overflow:hidden}
+.stage canvas{width:68%;height:auto}
+.stage .name-tag{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-family:var(--display);font-size:9px;background:var(--ink);color:#fff;padding:6px 8px;white-space:nowrap}
+.hero h1{font-size:clamp(22px,4.6vw,40px);line-height:1.35;color:var(--ink)}
+.hero h1 em{font-style:normal;color:var(--pink);text-shadow:4px 4px 0 var(--rose)}
+.class{font-family:var(--display);font-size:11px;color:var(--muted);margin:14px 0 18px;line-height:1.8}
+.hero p{font-size:21px}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px}
+.btn{font-family:var(--display);font-size:11px;text-decoration:none;color:#fff;background:var(--pink);border:var(--px) solid var(--ink);padding:14px 16px;box-shadow:6px 6px 0 var(--ink);display:inline-block}
+.btn.alt{background:var(--block);color:var(--ink)}
+.btn:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.stat .lbl{font-family:var(--display);font-size:9px;display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;line-height:1.6}
+.stat .lbl b{color:var(--pink);font-weight:400;font-variant-numeric:tabular-nums}
+.bar{height:22px;border:var(--px) solid var(--ink);background:#fff;display:flex;gap:2px;padding:2px}
+.bar i{flex:1;background:#f3d9e6}
+.bar i.on{background:var(--pink)}
+.bar.mint i.on{background:var(--mint)}
+.bar.lilac i.on{background:var(--lilac)}
+.stat small{display:block;color:var(--muted);font-size:16px;margin-top:6px}
+
+/* quests */
+.quests{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px}
+.quest{display:flex;flex-direction:column;gap:12px}
+.quest .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font-family:var(--display);font-size:8px;line-height:1;border:3px solid var(--ink);padding:6px 7px;background:var(--rose)}
+.chip.live{background:var(--mint)}
+.chip.wip{background:var(--lilac)}
+.quest .loot{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+.quest .loot span{font-size:16px;background:#ffeef6;border:2px solid var(--ink);padding:1px 8px}
+.quest .reward{font-family:var(--display);font-size:10px;color:var(--pink)}
+.quest .icon{width:48px;height:48px}
+
+/* xp log */
+.log{display:flex;flex-direction:column;gap:18px}
+.entry{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:start}
+.entry .when{font-family:var(--display);font-size:9px;line-height:1.8;color:var(--muted)}
+.entry h3{margin-bottom:6px}
+.entry .org{color:var(--pink);font-weight:600}
+
+/* save points */
+.saves{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.save{display:flex;flex-direction:column;gap:6px}
+.save .score{font-family:var(--display);font-size:14px;color:var(--pink);margin-top:6px}
+.save .yrs{color:var(--muted);font-size:17px}
+
+/* inventory */
+.inv{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+.slot{background:#ffeef6;border:var(--px) solid var(--ink);box-shadow:inset -4px -4px 0 var(--rose), inset 4px 4px 0 #fff;padding:12px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:17px;line-height:1.2}
+.slot canvas{width:32px;height:32px}
+.slot:hover{background:#fff;transform:translateY(-3px)}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.contact .addr{font-size:22px;word-break:break-all}
+.copy{font-family:var(--display);font-size:10px;background:var(--mint);color:var(--ink);border:var(--px) solid var(--ink);padding:12px 14px;box-shadow:5px 5px 0 var(--ink);cursor:pointer}
+.copy:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--ink)}
+footer{font-family:var(--display);font-size:9px;text-align:center;color:var(--muted);line-height:2}
+
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.stage canvas{animation:bob 1.6s steps(2) infinite}
+@media (prefers-reduced-motion:reduce){.stage canvas{animation:none}}
+
+@media (max-width:720px){
+  .hero{grid-template-columns:1fr}
+  .stage{max-width:300px;margin:0 auto;width:100%}
+  .entry{grid-template-columns:1fr;gap:6px}
+  .contact{grid-template-columns:1fr}
+  body{font-size:18px}
+}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas>
+<main>
+
+  <header class="hud">
+    <div class="coins">
+      <span>P1 <b>SUDHAVALLI</b></span>
+      <span>LVL <b>3</b> · B.TECH CSE</span>
+      <span>WORLD <b>CHENNAI</b></span>
+    </div>
+    <nav aria-label="Sections">
+      <a href="#quests">Quests</a>
+      <a href="#xp">XP</a>
+      <a href="#saves">Saves</a>
+      <a href="#inventory">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" aria-labelledby="hi">
+    <div class="stage">
+      <span class="name-tag">SUDHA.EXE</span>
+      <canvas id="hero-sprite" width="160" height="220" aria-label="Pixel-art character of Sudhavalli holding a laptop" role="img"></canvas>
+    </div>
+    <div>
+      <h1 id="hi">Hi, I'm <em>Sudhavalli</em> Murali</h1>
+      <div class="class">CLASS: ML ENGINEER IN TRAINING<br>GUILD: IIIT RAICHUR · CSE '28</div>
+      <p>Third-year B.Tech Computer Science student working on world models and deep learning. I've built LSTM, GRU and Transformer models from scratch, and I like taking ML, NLP and computer vision ideas all the way to something people can actually use.</p>
+      <div class="cta">
+        <a class="btn" href="#quests">▶ Start game</a>
+        <a class="btn alt" href="https://github.com/SUDHAVALLI-17">GitHub</a>
+        <a class="btn alt" href="https://www.linkedin.com/in/sudhavalli-murali/">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="stats-h">
+    <h2 id="stats-h"><span class="tag">STATS</span> Player attributes</h2>
+    <div class="stats" style="margin-top:20px">
+      <div class="stat">
+        <div class="lbl">IIIT RAICHUR CGPA <b>8.09/10</b></div>
+        <div class="bar" data-v="8.09" data-max="10"></div>
+        <small>B.Tech CSE, 2024–2028</small>
+      </div>
+      <div class="stat">
+        <div class="lbl">IIT MADRAS CGPA <b>8.60/10</b></div>
+        <div class="bar lilac" data-v="8.6" data-max="10"></div>
+        <small>BS Foundation level (online)</small>
+      </div>
+      <div class="stat">
+        <div class="lbl">CLASS XII <b>91.8%</b></div>
+        <div class="bar mint" data-v="91.8" data-max="100"></div>
+        <small>CBSE, Science stream</small>
+      </div>
+      <div class="stat">
+        <div class="lbl">CLASS X <b>98.2%</b></div>
+        <div class="bar" data-v="98.2" data-max="100"></div>
+        <small>CBSE</small>
+      </div>
+    </div>
+  </section>
+
+  <section id="quests" aria-labelledby="quests-h" style="display:flex;flex-direction:column;gap:22px">
+    <h2 id="quests-h"><span class="tag">QUESTS</span> Projects</h2>
+    <div class="quests">
+      <article class="block quest">
+        <canvas class="icon" data-icon="brain" width="16" height="16" aria-hidden="true"></canvas>
+        <div class="meta"><span class="chip wip">IN PROGRESS</span><span class="chip">AUG 2026 – NOW</span></div>
+        <h3>Action-Conditioned World Model for Brain MRI</h3>
+        <p>Team research project under faculty mentorship on the longitudinal ADNI brain MRI dataset. An encoder compresses each 3D scan into a compact latent state, and a transition model predicts the next state conditioned on an action.</p>
+        <div class="loot"><span>World models</span><span>3D MRI</span><span>PyTorch</span><span>Research</span></div>
+      </article>
+
+      <article class="block quest">
+        <canvas class="icon" data-icon="leaf" width="16" height="16" aria-hidden="true"></canvas>
+        <div class="meta"><span class="chip live">LIVE</span><span class="chip">SEP – OCT 2025</span></div>
+        <h3>DeepAgro: AI-Powered Smart Agriculture</h3>
+        <p>Trained XGBoost, scikit-learn and CNN models on 85,000+ agricultural records and images for crop and fertilizer recommendation and plant-disease classification. Built the whole system, from data processing to a deployed app.</p>
+        <div class="reward">★ UP TO 93% ACCURACY</div>
+        <div class="loot"><span>CNN</span><span>XGBoost</span><span>Full stack</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px"><a href="https://deepagro-reborn.vercel.app/auth">Play the live app →</a><a href="https://github.com/SUDHAVALLI-17/DeepAgro-">Source code →</a></div>
+      </article>
+
+      <article class="block quest">
+        <canvas class="icon" data-icon="chat" width="16" height="16" aria-hidden="true"></canvas>
+        <div class="meta"><span class="chip live">LIVE</span><span class="chip">FEB – MAR 2025</span></div>
+        <h3>Next-Word Prediction from Scratch</h3>
+        <p>Implemented an LSTM (76K params), a GRU (70K) and a Transformer (136K) in PyTorch without built-in model layers: recurrent gating, multi-head self-attention, sinusoidal positional encoding and layer normalisation, all hand-written.</p>
+        <div class="reward">★ 3 ARCHITECTURES, 0 SHORTCUTS</div>
+        <div class="loot"><span>Transformers</span><span>RNNs</span><span>NLP</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px"><a href="https://next-word-prediction-5.onrender.com/">Try the demo →</a><a href="https://github.com/SUDHAVALLI-17/Next-word-prediction-">Source code →</a></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="xp" class="block" aria-labelledby="xp-h">
+    <h2 id="xp-h"><span class="tag">XP LOG</span> Experience</h2>
+    <div class="log" style="margin-top:22px">
+      <div class="entry">
+        <div class="when">DEC 2025 –<br>JAN 2026</div>
+        <div>
+          <h3>Computer Vision Intern</h3>
+          <div class="org">Bharat Space Education Research Centre · Remote</div>
+          <p>Analysed a YOLO-based automatic number-plate recognition pipeline and documented its performance trade-offs for real-time surveillance.</p>
+        </div>
+      </div>
+      <div class="entry">
+        <div class="when">NOV 2025 –<br>PRESENT</div>
+        <div>
+          <h3>Core Member</h3>
+          <div class="org">CODESOC · IIIT Raichur</div>
+          <p>Part of the core team of the institute's coding society.</p>
+        </div>
+      </div>
+      <div class="entry">
+        <div class="when">CAMPUS<br>CLUB</div>
+        <div>
+          <h3>Event Manager</h3>
+          <div class="org">Xposure Club · IIIT Raichur</div>
+          <p>Plans and runs club events on campus.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="saves" aria-labelledby="saves-h" style="display:flex;flex-direction:column;gap:22px">
+    <h2 id="saves-h"><span class="tag">SAVE POINTS</span> Education</h2>
+    <div class="saves">
+      <div class="block save"><h3>B.Tech, Computer Science &amp; Engineering</h3><div class="yrs">IIIT Raichur · 2024–2028</div><div class="score">8.09 CGPA</div></div>
+      <div class="block save"><h3>BS, Foundation Level (online)</h3><div class="yrs">IIT Madras · 2024–2025</div><div class="score">8.60 CGPA</div></div>
+      <div class="block save"><h3>Senior Secondary (XII), Science</h3><div class="yrs">Peace On Green Earth Public School, Chennai · 2024</div><div class="score">91.8%</div></div>
+      <div class="block save"><h3>Secondary (X)</h3><div class="yrs">SMT RKD Fomra V Vidyalaya, Chennai · 2022</div><div class="score">98.2%</div></div>
+    </div>
+  </section>
+
+  <section id="inventory" class="block" aria-labelledby="inv-h">
+    <h2 id="inv-h"><span class="tag">INVENTORY</span> Skills</h2>
+    <div class="inv" style="margin-top:22px">
+      <div class="slot"><canvas data-icon="py" width="16" height="16" aria-hidden="true"></canvas>Python</div>
+      <div class="slot"><canvas data-icon="cpp" width="16" height="16" aria-hidden="true"></canvas>C++</div>
+      <div class="slot"><canvas data-icon="flame" width="16" height="16" aria-hidden="true"></canvas>PyTorch</div>
+      <div class="slot"><canvas data-icon="brain" width="16" height="16" aria-hidden="true"></canvas>Deep Learning</div>
+      <div class="slot"><canvas data-icon="gem" width="16" height="16" aria-hidden="true"></canvas>Machine Learning</div>
+      <div class="slot"><canvas data-icon="eye" width="16" height="16" aria-hidden="true"></canvas>Computer Vision</div>
+      <div class="slot"><canvas data-icon="chat" width="16" height="16" aria-hidden="true"></canvas>NLP</div>
+      <div class="slot"><canvas data-icon="star" width="16" height="16" aria-hidden="true"></canvas>Transformers</div>
+      <div class="slot"><canvas data-icon="leaf" width="16" height="16" aria-hidden="true"></canvas>XGBoost</div>
+      <div class="slot"><canvas data-icon="heart" width="16" height="16" aria-hidden="true"></canvas>scikit-learn</div>
+    </div>
+  </section>
+
+  <section id="contact" class="block contact" aria-labelledby="contact-h">
+    <div>
+      <h2 id="contact-h"><span class="tag">PLAYER 2?</span> Let's build something</h2>
+      <p style="margin-top:14px">Open to ML, deep learning and research internships, remote or in Chennai, Bengaluru and Hyderabad.</p>
+      <p class="addr" style="margin-top:12px"><a href="mailto:sudhavalli.ommurali@gmail.com">sudhavalli.ommurali@gmail.com</a></p>
+      <p style="margin-top:6px"><a href="https://github.com/SUDHAVALLI-17">github.com/SUDHAVALLI-17</a></p>
+      <p style="margin-top:6px"><a href="https://www.linkedin.com/in/sudhavalli-murali/">linkedin.com/in/sudhavalli-murali</a></p>
+    </div>
+    <button class="copy" id="copy" type="button">COPY EMAIL</button>
+  </section>
+
+  <footer>♥ GAME SAVED ♥<br>© 2026 SUDHAVALLI MURALI · ALL SPRITES HAND-PLACED</footer>
+</main>
+
+<script>
+(() => {
+  const P = {
+    K:'#4a1942', H:'#ff4fa3', h:'#d6337f', S:'#ffd9c2', s:'#f2b89c', W:'#ffffff',
+    B:'#ff8fbf', D:'#ffffff', d:'#ffc2dc', L:'#9a8fb3', l:'#6fe3c8', R:'#c9a7ff', Y:'#ffd84d', G:'#3fbf9f', g:'#6fe3c8'
+  };
+
+  /* ---------- original hero sprite (16 x 22) ---------- */
+  const hero = [
+    "..KKK......KKK..",
+    ".KHHHK....KHHHK.",
+    ".KHhHKKKKKKHhHK.",
+    "..KKHHHHHHHHKK..",
+    "..KHHHHHRHHHHK..",
+    ".KHHHHHRYRHHHHK.",
+    ".KHHSSSSRSSSHHK.",
+    ".KHSSSSSSSSSSHK.",
+    ".KHSSKKSSKKSSHK.",
+    ".KHSSKWSSKWSSHK.",
+    ".KHBBSSSSSSBBHK.",
+    ".KHHSSSKKSSSHHK.",
+    "..KHKSSSSSSKHK..",
+    "..KHHKKSSKKHHK..",
+    "...KKDDDDDDKK...",
+    "..KdDDdDDdDDdK..",
+    ".KSKDDDDDDDDKSK.",
+    ".KSKLLLLLLLLKSK.",
+    "..KKLllllllLKK..",
+    "...KLLLLLLLLK...",
+    "....KddKKddK....",
+    "....KKK..KKK...."
+  ];
+  const blinkRows = {8:".KHSSSSSSSSSSHK.", 9:".KHSSKKSSKKSSHK."};
+
+  function drawGrid(ctx, rows, cell, ox=0, oy=0){
+    rows.forEach((r,y)=>{
+      for(let x=0;x<r.length;x++){
+        const c=r[x]; if(c==='.'||!P[c]) continue;
+        ctx.fillStyle=P[c]; ctx.fillRect(ox+x*cell, oy+y*cell, cell, cell);
+      }
+    });
+  }
+
+  const hc = document.getElementById('hero-sprite');
+  const hx = hc.getContext('2d');
+  const cell = 10;
+  function paintHero(blink){
+    hx.clearRect(0,0,hc.width,hc.height);
+    const rows = hero.map((r,i)=> blink && blinkRows[i] ? blinkRows[i] : r);
+    drawGrid(hx, rows, cell, 0, 0);
+  }
+  paintHero(false);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce){
+    setInterval(()=>{ paintHero(true); setTimeout(()=>paintHero(false),160); }, 3200);
+  }
+
+  /* ---------- 16x16 item icons ---------- */
+  const icons = {
+    heart:["................","..KKK....KKK....",".KBBBK..KBBBK...","KBWBBBKKBBBBBK..","KBWBBBBBBBBBBK..","KBBBBBBBBBBBBK..",".KBBBBBBBBBBK...","..KBBBBBBBBK....","...KBBBBBBK.....","....KBBBBK......",".....KBBK.......","......KK........","................","................","................","................"],
+    star:["................",".......KK.......","......KYYK......","......KYYK......",".....KYYYYK.....","KKKKKKYYYYKKKKKK","KYYYYYYWYYYYYYYK",".KYYYYYYYYYYYYK.","..KYYYYYYYYYYK..","...KYYYYYYYYK...","...KYYYKKYYYK...","..KYYYK..KYYYK..","..KYYK....KYYK..",".KYK........KYK.",".KK..........KK.","................"],
+    gem:["................","....KKKKKKKK....","...KRRWRRRRRK...","..KRRWRRRRRRRK..",".KRRRRRRRRRRRRK.","KKKKKKKKKKKKKKKK",".KRRRRRRRRRRRRK.","..KRRRRRRRRRRK..","...KRRRRRRRRK...","....KRRRRRRK....",".....KRRRRK.....","......KRRK......",".......KK.......","................","................","................"],
+    leaf:["................","..........KKKK..","........KKgggK..",".......KgggggK..","......KgggWggK..",".....KgggWgggK..","....KggGWgggK...","...KggGWggggK...","...KgGWggggK....","...KGWgggKK.....","...KWKKKK.......","..KWK...........",".KWK............","KK..............","................","................"],
+    brain:["................","....KKKKKKKK....","..KKBBBBKBBBKK..",".KBBBWBBKBBBBBK.",".KBBBBBBKBBWBBK.","KBBKBBBBKBBBBBBK","KBBBKKBBKBBKKBBK","KBBBBBBBKBBBBBBK","KBWBBBBBKBBBBBBK",".KBBBKKBKBKKBBK.",".KBBBBBBKBBBBBK.","..KKBBBBKBBBKK..","....KKKKKKKK....","......KhhK......","......KhhK......","......KKKK......"],
+    eye:["................","................","................",".....KKKKKK.....","...KKWWWWWWKK...","..KWWWWKKWWWWK..",".KWWWKRRRRKWWWK.","KWWWKRRKKRRKWWWK","KWWWKRRKKRRKWWWK",".KWWWKRRRRKWWWK.","..KWWWWKKWWWWK..","...KKWWWWWWKK...",".....KKKKKK.....","................","................","................"],
+    chat:["................","..KKKKKKKKKKKK..",".KWWWWWWWWWWWWK.",".KWWWWWWWWWWWWK.",".KWKKWKKWKKWWWK.",".KWWWWWWWWWWWWK.",".KWKKKWKKKWWWWK.",".KWWWWWWWWWWWWK.","..KKKKWWKKKKKK..","......KWK.......",".......KK.......","................","................","................","................","................"],
+    flame:["................",".......KK.......","......KYYK......",".....KYYYK......",".....KYYYYK.....","....KHYYYYK.....","...KHHYYYYHK....","...KHHHYYHHK....","..KHHHHYYHHHK...","..KHHHYWWYHHK...","..KHHHYWWYHHK...","..KHHHHYYHHHK...","...KHHHHHHHK....","....KKHHHHKK....","......KKKK......","................"],
+    py:["................","....KKKKKK......","...KRRRRRRK.....","...KRWRRRRK.....","...KKKKRRRK.....",".KKRRRRRRRKYYK..",".KRRRRRRRRKYYYK.",".KRRRRRRRKKYYYK.",".KRRRKKKKYYYYYK.",".KRRKYYYYYYYYKK.","..KKKYYYYYYYK...",".....KYYYKKKK...",".....KYYYYWYK...",".....KYYYYYYK...","......KKKKKK....","................"],
+    cpp:["................",".....KKKKKK.....","...KKRRRRRRKK...","..KRRRRRRRRRRK..",".KRRRKKKKRRRRRK.",".KRRKRRRRKRWRWK.",".KRRKRRRRRRRRRK.",".KRRKRRRRRRWRWK.",".KRRKRRRRKRRRRK.",".KRRRKKKKRRRRRK.","..KRRRRRRRRRRK..","...KKRRRRRRKK...",".....KKKKKK.....","................","................","................"]
+  };
+  document.querySelectorAll('canvas[data-icon]').forEach(c=>{
+    const g=icons[c.dataset.icon]; if(!g) return;
+    drawGrid(c.getContext('2d'), g, 1);
+  });
+
+  /* ---------- pixel bars ---------- */
+  document.querySelectorAll('.bar').forEach(b=>{
+    const n=20, on=Math.round(n*(+b.dataset.v)/(+b.dataset.max));
+    for(let i=0;i<n;i++){const s=document.createElement('i'); if(i<on) s.className='on'; b.appendChild(s);}
+  });
+
+  /* ---------- background: drifting pixel hearts, sparkles, clouds ---------- */
+  const sky=document.getElementById('sky'), sx=sky.getContext('2d');
+  const smallHeart=[".KK.KK.","KBBKBBK","KBWBBBK","KBBBBBK",".KBBBK.","..KBK..","...K..."];
+  const sparkle=["...Y...","...Y...","..YWY..","YYWWWYY","..YWY..","...Y...","...Y..."];
+  const cloud=["....WWWW......","..WWWWWWWW.WWW.",".WWWWWWWWWWWWWWW","WWWWWWWWWWWWWWWW",".WWWWWWWWWWWWWW."];
+  let W,Hh,items=[];
+  function resize(){
+    const dpr=1; W=sky.width=innerWidth*dpr; Hh=sky.height=innerHeight*dpr;
+    items=[];
+    const count=Math.max(14,Math.round(W*Hh/52000));
+    for(let i=0;i<count;i++){
+      const t=Math.random();
+      items.push({x:Math.random()*W,y:Math.random()*Hh,sz:t<.2?6:4,
+        kind:t<.15?'cloud':t<.55?'heart':'sparkle',v:.15+Math.random()*.35,ph:Math.random()*6});
+    }
+  }
+  function frame(tm){
+    sx.clearRect(0,0,W,Hh);
+    sx.globalAlpha=.55;
+    for(const it of items){
+      const g=it.kind==='heart'?smallHeart:it.kind==='cloud'?cloud:sparkle;
+      if(it.kind==='sparkle' && Math.sin(tm/400+it.ph)<-.3) continue;
+      drawGrid(sx,g,it.sz,Math.round(it.x),Math.round(it.y));
+      if(!reduce){
+        it.y-=it.v*(it.kind==='cloud'?.3:1);
+        if(it.kind==='cloud') it.x+=.15;
+        if(it.y<-60){it.y=Hh+20;it.x=Math.random()*W;}
+        if(it.x>W+80) it.x=-80;
+      }
+    }
+    sx.globalAlpha=1;
+    if(!reduce) requestAnimationFrame(frame);
+  }
+  resize(); addEventListener('resize',resize); requestAnimationFrame(frame);
+
+  /* ---------- copy email ---------- */
+  const btn=document.getElementById('copy');
+  btn.addEventListener('click', async ()=>{
+    try{ await navigator.clipboard.writeText('sudhavalli.ommurali@gmail.com'); btn.textContent='COPIED ♥'; }
+    catch(e){ btn.textContent='SELECT ABOVE'; }
+    setTimeout(()=>btn.textContent='COPY EMAIL',1800);
+  });
+})();
+</script>
+</body>
+</html>
