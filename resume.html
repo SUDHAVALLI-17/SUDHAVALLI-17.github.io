@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sudhavalli Murali · Resume</title>
+<style>
+:root{--ink:#1d1a24;--muted:#5b5566;--accent:#c2185b;--rule:#e6dbe3;--bg:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Charter","Georgia",serif}
+main{max-width:820px;margin:0 auto;padding:36px 22px 60px}
+h1{font:600 30px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;letter-spacing:.01em}
+.contact{font:14px/1.6 system-ui,sans-serif;color:var(--muted);margin-top:6px}
+.contact a{color:var(--accent)}
+.lead{margin-top:10px;font-size:15px}
+h2{font:700 12px/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--rule);padding-bottom:6px;margin:26px 0 12px}
+.row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.row b{font-family:system-ui,sans-serif}
+.when{color:var(--muted);font:13px system-ui,sans-serif;white-space:nowrap}
+.sub{color:var(--muted);font-style:italic}
+ul{margin:6px 0 14px;padding-left:20px}
+li{margin:3px 0}
+.skills p{margin:4px 0}
+.skills b{font-family:system-ui,sans-serif}
+.print{position:fixed;right:16px;top:16px;font:600 13px system-ui,sans-serif;background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:6px;cursor:pointer}
+@media print{.print{display:none}main{padding:0}}
+</style>
+</head>
+<body>
+<button class="print" type="button" onclick="window.print()">Print / Save PDF</button>
+<main>
+  <h1>Sudhavalli Murali</h1>
+  <div class="contact">
+    <a href="mailto:cs24b1057@iiitr.ac.in">cs24b1057@iiitr.ac.in</a> ·
+    <a href="https://www.linkedin.com/in/sudhavalli-murali/">linkedin.com/in/sudhavalli-murali</a> ·
+    <a href="https://github.com/SUDHAVALLI-17">github.com/SUDHAVALLI-17</a> ·
+    <a href="https://sudhavalli-17.github.io/">sudhavalli-17.github.io</a>
+  </div>
+  <p class="lead"><b>Research interests:</b> World Models, Self-Evolving Agents, Agentic AI, Diffusion Models, Computer Vision, Medical Imaging, NLP<br>
+  <b>Available:</b> research or industry internship in India, 2027 (flexible start)</p>
+
+  <h2>Education</h2>
+  <div class="row"><b>Indian Institute of Information Technology, Raichur</b><span class="when">Aug 2024 – Jun 2028</span></div>
+  <div>Bachelor of Technology, Computer Science and Engineering · CGPA 8.09/10</div>
+  <div class="row" style="margin-top:8px"><b>Indian Institute of Technology (IIT) Madras</b><span class="when">Jun 2024 – Jan 2025</span></div>
+  <div>BS Degree, Foundation Level · CGPA 8.6/10</div>
+  <p class="sub" style="margin-top:8px">Relevant coursework: Deep Learning, Foundations of Machine Learning, Digital Image Processing, Probability and Statistics, Data Structures and Algorithms, Design and Analysis of Algorithms, Object-Oriented Programming, Database Management Systems, Operating Systems, Computer Networks</p>
+
+  <h2>Research &amp; Projects</h2>
+  <div class="row"><b>Action-Conditioned World Model for Brain MRI (ADNI)</b><span class="when">Ongoing</span></div>
+  <div class="sub">Python, PyTorch · Group research project</div>
+  <ul>
+    <li>Building, with a team under faculty mentorship, a world model on the longitudinal ADNI brain MRI dataset: an encoder maps each 3D scan to a compact latent state and a transition model predicts the next state conditioned on an action defined from inter-visit time and clinical context.</li>
+    <li>Handling high-dimensional 3D volumes with few subjects, irregular and missing visits, multi-scanner and multi-field-strength data, and skull stripping and registration in preprocessing; studying how to evaluate predicted scans that have no direct ground truth.</li>
+    <li>Exploring self-evolving agents, knowledge distillation and diffusion-based decoders as extensions.</li>
+  </ul>
+  <div class="row"><b>Next Word Prediction System using Deep Learning</b><span class="when">Manuscript in preparation</span></div>
+  <div class="sub">Python, PyTorch, Flask · <a href="https://github.com/SUDHAVALLI-17/Next-word-prediction-">GitHub</a></div>
+  <ul>
+    <li>Implemented LSTM (76K params), GRU (70K params) and Transformer (136K params) from scratch in PyTorch, including recurrent gating, multi-head self-attention, sinusoidal positional encoding and layer normalisation, without built-in model layers.</li>
+    <li>Built an end-to-end NLP pipeline (tokenisation of 531 unique tokens, sliding-window sequences, 80/20 split); GRU achieved the best Top-1 accuracy (9.38%) and lowest WER (0.906), outperforming the Transformer (6.6%) in the low-data regime.</li>
+    <li>Deployed a Flask web app for real-time inference across all three models (0.41–0.93 ms/sample) with voice input and session history.</li>
+  </ul>
+  <div class="row"><b>DeepAgro: AI-Powered Smart Agriculture</b><span class="when"><a href="https://deepagro-reborn.vercel.app/">Live app</a></span></div>
+  <div class="sub">Python, FastAPI, React, TensorFlow, XGBoost, CNN · <a href="https://github.com/SUDHAVALLI-17/DeepAgro-">GitHub</a></div>
+  <ul>
+    <li>Trained XGBoost, Scikit-learn and CNN models on 85,000+ agricultural records and images for crop and fertilizer recommendation and plant-disease classification, reaching up to 93% accuracy.</li>
+    <li>Built the full system from data processing to production: FastAPI model serving, React front end, Supabase authentication, real-time mandi prices and an AI chatbot assistant.</li>
+  </ul>
+
+  <h2>Experience</h2>
+  <div class="row"><b>Bharat Space Education Research Centre</b><span class="when">Dec 2025 – Jan 2026</span></div>
+  <div class="sub">Def-Space Winter Intern (Computer Vision)</div>
+  <ul>
+    <li>Analysed a YOLO-based ANPR pipeline architecture and documented performance trade-offs for real-time surveillance scenarios.</li>
+  </ul>
+
+  <h2>Achievements</h2>
+  <ul>
+    <li>AIXPO 2026 (IIIT Raichur): awarded the “Most Technically Advanced Project”.</li>
+    <li>Kaggle: Top 1% (rank 102 of 12,000+) in the Credit Card Fraud Detection competition.</li>
+    <li>Data Structures &amp; Algorithms: 150+ problems solved on LeetCode.</li>
+  </ul>
+
+  <h2>Technical Skills</h2>
+  <div class="skills">
+    <p><b>Programming Languages:</b> Python, C, C++</p>
+    <p><b>Deep Learning:</b> PyTorch, TensorFlow, Keras; Transformers (self-attention, positional encoding), LSTM, GRU, CNNs (ResNet, VGG16), transfer learning, language modeling</p>
+    <p><b>Generative &amp; World Models:</b> action-conditioned world models, diffusion models, knowledge distillation, generative AI</p>
+    <p><b>Agentic AI &amp; LLMs:</b> LangGraph, LangChain, Google Agent Development Kit (ADK), self-evolving agents, multi-agent systems, RAG, prompt engineering, LLM applications</p>
+    <p><b>Computer Vision &amp; Imaging:</b> YOLO object detection, image classification, OpenCV, digital image processing, medical imaging (brain MRI), adversarial robustness</p>
+    <p><b>Machine Learning &amp; Data:</b> Scikit-learn, XGBoost, NumPy, Pandas, Matplotlib, Seaborn, model evaluation, experimental design</p>
+    <p><b>Deployment &amp; Tools:</b> Flask, FastAPI, React, Supabase, MySQL, MongoDB, Git, GitHub, Linux, Jupyter, Google Colab, Kaggle</p>
+  </div>
+</main>
+</body>
+</html>
